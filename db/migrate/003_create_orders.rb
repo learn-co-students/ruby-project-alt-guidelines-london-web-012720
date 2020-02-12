@@ -3,7 +3,7 @@ class CreateOrders < ActiveRecord::Migration[5.2]
       create_table :orders do |t|
       t.integer :user_id 
       t.integer :product_id
-      t.integer :date 
+      t.datetime :date 
       end
     end
   end

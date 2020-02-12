@@ -1,25 +1,17 @@
 class CommandLineInterface
- 
+
     def greet
         puts "________________"
-
         puts "Welcome to Tech Hunter"
-       
         puts "________________"
     end
 
-
     def menu
-
         puts "________________"
-
         puts "insert the user name to continue"
-
         @user_name  = gets.chomp
         response = User.find_by(user_name: @user_name)
-
         puts "________________"
-
         if  response
             mainscreen
         else
@@ -27,31 +19,22 @@ class CommandLineInterface
              menu
          end
     end   
-    
+
     def mainscreen
             puts "____________________________________________"
-
             puts "Welcome back #{@user_name}"
-
             puts "____________________________________________"
-
             puts "
             Where would you like to go?
-
             1. Order history
             2. Create a new order
             3. Go back to the login page
             "
-
             puts "____________________________________________"
-
-
-            mainscreen_options = gets.chomp.to_i
+        mainscreen_options = gets.chomp.to_i
     if   mainscreen_options == 1
-            
         order_history       
     elsif mainscreen_options == 2
-        
         insert_budget 
     elsif mainscreen_options == 3
          menu
@@ -59,11 +42,9 @@ class CommandLineInterface
          puts "Insert valid option please try again."
          menu
      end
- end
+    end
 
-  
     def order_history
-
         @u1  = User.find_by(user_name: @user_name)
              @@all_products = @u1.products
              @@all_products.map do |p|
@@ -71,75 +52,32 @@ class CommandLineInterface
              puts""
          end
        end
-   
-
        def insert_budget
             puts "insert budget"
-
-             puts "__________________________________________ "
-
+            puts "__________________________________________ "
             user_budget = gets.chomp.to_i
-
              @product_budget = Product.all.select {|p|p.product_price <= user_budget}
             puts "Yout budget allow you to buy:"
-
-             puts "____________________________________________"
-
+              puts "____________________________________________"
              @product_budget.each_with_index do |p, i|
-           
             puts "#{i +=1}\t #{p.product_type}, which cost #{p.product_price} product ID #{p.id}"
             puts ""
-           
         end
         create_product
-
     end
-
         def create_product
             puts "__________________________________________"
-
             puts"Select the ID of your chosen product"
             user_choice = gets.chomp.to_i
-           
-
-            puts "__________________________________________"
-            p = Product.find_by(id: user_choice)
-            puts""
-
-            puts "You have selected #{p.product_type} which cost #{p.product_price}"
-         
-            puts ""
-           
-
-        end
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+           #user choice is and ID
+           p = Product.find_by(id: user_choice)
+          if user_choice == Integer
+            "You have selected #{p.product_type} which cost #{p.product_price}"
+          else 
+             "please insert a number"
+          end
+    end
     #    @prodcuts.each {|p| Order.create(user_id: self.id, product_id: p.id, date: 2020)
-
-      
 #    def insert_budget
 #        puts "------------------------------------------------------"
 #        puts "Please insert your budget #{@user_input}"
@@ -238,8 +176,4 @@ class CommandLineInterface
     #        list_of_tech
     #    end
 #    end
-   
-   
-   
-
 end
