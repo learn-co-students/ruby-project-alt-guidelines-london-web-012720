@@ -14,6 +14,7 @@ p9 = Product.create(product_type: "Laundry machines", product_price: 400)
 p10 = Product.create(product_type: "Water detectors", product_price: 700)
 p11  = Product.create(product_type: "Monitoring systems", product_price: 100)
 
+
 Order.create(user_id: u3.id, product_id: p1.id, date: 2013)
 Order.create(user_id: u2.id, product_id: p2.id, date: 2014)
 Order.create(user_id: u3.id, product_id: p4.id, date: 2013)
@@ -26,3 +27,4 @@ Order.create(user_id: u3.id, product_id: p3.id, date: 2019)
 Order.create(user_id: u3.id, product_id: p4.id, date: 2019)
 Order.create(user_id: u1.id, product_id: p2.id, date: 2018)
 Order.create(user_id: u3.id, product_id: p1.id, date: 2016)
+
