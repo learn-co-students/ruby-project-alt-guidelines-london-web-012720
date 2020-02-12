@@ -8,40 +8,63 @@ class CommandLineInterface
 
     def menu
         puts "________________"
-        puts "insert the user name to continue"
+        puts "Insert the user name to continue:"
         @user_name  = gets.chomp
-        response = User.find_by(user_name: @user_name)
+        @user_instance = User.find_by(user_name: @user_name)
         puts "________________"
-        if  response
+        if  @user_instance
             mainscreen
         else
-             puts "try again"
-             menu
-         end
+             create_username 
+        end
     end   
 
     def mainscreen
-            puts "____________________________________________"
-            puts "Welcome back #{@user_name}"
-            puts "____________________________________________"
-            puts "
-            Where would you like to go?
-            1. Order history
-            2. Create a new order
-            3. Go back to the login page
-            "
-            puts "____________________________________________"
+        puts "____________________________________________"
+        puts "Welcome back #{@user_name}"
+        puts "____________________________________________"
+        puts "
+        Where would you like to go?
+        1. Order history
+        2. Create a new order
+        3. Update your order 
+        4. Cancel your order
+        5. Go back to the login page
+        "
+        puts "____________________________________________"
+        
         mainscreen_options = gets.chomp.to_i
-    if   mainscreen_options == 1
-        order_history       
-    elsif mainscreen_options == 2
-        insert_budget 
-    elsif mainscreen_options == 3
-         menu
-    else
-         puts "Insert valid option please try again."
-         menu
-     end
+        if   mainscreen_options == 1
+            order_history       
+        elsif mainscreen_options == 2
+            insert_budget
+        elsif mainscreen_options == 3
+            puts "num3"
+            menu
+        elsif mainscreen_options == 4
+            puts "num4"
+            menu
+        elsif mainscreen_options == 5
+            menu
+        else
+            puts "Insert valid option please try again."
+            menu
+        end
+    end
+
+    def create_username
+        puts "____________________________________________"
+
+        puts "Your name is not registered, please insert nickname to create a new user:"
+        
+        @user_name = gets.chomp.to_s
+
+
+        puts "____________________________________________"
+
+        @user_instance = User.create(user_name: "#{@user_name}")
+
+        mainscreen
     end
 
     def order_history
@@ -51,32 +74,86 @@ class CommandLineInterface
              puts "You have ordered a #{p.product_type}, for £#{p.product_price}."
              puts""
          end
-       end
-       def insert_budget
-            puts "insert budget"
-            puts "__________________________________________ "
-            user_budget = gets.chomp.to_i
-             @product_budget = Product.all.select {|p|p.product_price <= user_budget}
-            puts "Yout budget allow you to buy:"
-              puts "____________________________________________"
-             @product_budget.each_with_index do |p, i|
-            puts "#{i +=1}\t #{p.product_type}, which cost #{p.product_price} product ID #{p.id}"
-            puts ""
+    end
+
+    def insert_budget
+        puts "insert budget"
+        puts "__________________________________________ "
+        user_budget = gets.chomp.to_i
+            @product_budget = Product.all.select {|p|p.product_price <= user_budget}
+        puts "Yout budget allow you to buy:"
+            puts "____________________________________________"
+            @product_budget.each_with_index do |p, i|
+        puts "#{i +=1}\t #{p.product_type}, which cost #{p.product_price} product ID #{p.id}"
+        puts ""
         end
-        create_product
+        create_product 
     end
-        def create_product
-            puts "__________________________________________"
-            puts"Select the ID of your chosen product"
-            user_choice = gets.chomp.to_i
-           #user choice is and ID
-           p = Product.find_by(id: user_choice)
-          if user_choice == Integer
-            "You have selected #{p.product_type} which cost #{p.product_price}"
-          else 
-             "please insert a number"
-          end
+
+    def create_product
+        puts "__________________________________________"
+        puts"Select the ID of your chosen product"
+        puts""
+        user_choice = gets.chomp.to_i
+        p = Product.find_by(id: user_choice)#return instance of the product 
+         new_order =  Order.new(user_id: @user_instance.id, product_id: p.id, date: 2020).save
+         puts""
+        puts "You have bought selected #{p.product_type} which cost #{p.product_price}"
+        puts ""
+        puts "__________________________________________"
+        mainscreen
     end
+
+
+        def update_user_product 
+
+            puts "---------------------------------------------------------------------------------"
+
+            puts "Please enter your order to update" #I need to know order number?
+
+            puts"
+            
+            
+            "
+            product_input = gets.chomp
+
+            puts "---------------------------------------------------------------------------------"
+
+            user = Order.find_by(order_id: product_id)
+
+            puts "---------------------------------------------------------------------------------"
+
+            puts "Please enter your new product"
+
+            new_product = gets.chomp
+
+            puts "---------------------------------------------------------------------------------"
+
+            user.name = new_product
+
+            order.save
+
+            puts "---------------------------------------------------------------------------------"
+
+            puts "You have now changed the product on your order to #{new_product}"
+
+            puts "---------------------------------------------------------------------------------"
+
+            maiscreen
+    end
+end
+
+
+
+    def test
+        @u1.products.each_with_index {|p, i|puts  "#{i} choose product to delete #{p.product_type}"}
+    end
+
+
+
+
+
+
     #    @prodcuts.each {|p| Order.create(user_id: self.id, product_id: p.id, date: 2020)
 #    def insert_budget
 #        puts "------------------------------------------------------"
@@ -176,4 +253,3 @@ class CommandLineInterface
     #        list_of_tech
     #    end
 #    end
-end
