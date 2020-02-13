@@ -25,17 +25,26 @@ class CommandLineInterface
             create_username 
           
         end
-    end   
+    end 
 
-      
+    def create_username
+        puts "____________________________________________"
+
+        puts "Your name is not registered, please insert nickname to create a new user:"
+        
+        @user_name = gets.chomp.to_s
+
+        @user_instance = User.create(user_name: "#{@user_name}")
+        puts "____________________________________________"
+
+        menu
+    end
 
 
     def mainscreen
 
-        @all_orders    = @user_instance.orders
+        @all_orders = @user_instance.orders
         @all_products  = @user_instance.products
-        
-
         puts "____________________________________________"
         puts "Welcome back #{@user_name}"
         puts "____________________________________________"
@@ -77,20 +86,6 @@ class CommandLineInterface
 
     end
 
-    def create_username
-        puts "____________________________________________"
-
-        puts "Your name is not registered, please insert nickname to create a new user:"
-        
-        @user_name = gets.chomp.to_s
-
-
-        puts "____________________________________________"
-
-        @user_instance = User.create(user_name: "#{@user_name}")
-
-        mainscreen
-    end
 
     def order_history
 
@@ -207,6 +202,9 @@ class CommandLineInterface
 
             @all_orders.reload
             
+            puts "Your order has been successfully updated!."
+
+            mainscreen
 
     end
 
@@ -223,10 +221,8 @@ class CommandLineInterface
 
         puts "Please enter your order to cancel:"
           
-            @all_products.find do |p|
                 @all_orders.each do |o|
-                    puts "In your card there is #{p.product_type} with a order id #{o.id}"
-                end
+                    puts "In your card there is #{o.product.product_type} with a order ID #{o.id}"
             end
 
         puts "____________________________________________"
