@@ -162,45 +162,51 @@ class CommandLineInterface
             puts "Your order list in empty! Have a look to our great catelogue!"
             mainscreen
         else
-            puts "__________________________________________"
+            puts "__________________________________________" 
             
             puts "Please enter your order ID to update:"
 
-                @all_products.select do |p|
-                    puts "In your card there is #{p.product_type} with an order ID  #{p.id}"
+            puts "__________________________________________"
+
+                    @all_orders.select do |o|
+                        puts "In your card there is #{o.product.product_type} with a order id #{o.id}."
                 end
-        end
-            puts "__________________________________________"
+        end 
+            puts "__________________________________________" 
 
-            puts "Please select ID of your order to modify:"
+            puts "Please select ID of your order to modify:" 
 
-            modify_order = @all_orders.find_by(id: gets.chomp.to_i)#instance
-            
-            
-            puts "__________________________________________"
+            order_to_modify_id =  gets.chomp.to_i    #id of the order to modify  
+          
+            puts "__________________________________________" 
+            puts "" 
             
             puts "Please select the product ID you would like to enjoy:"
-            puts "__________________________________________"
-            puts ""
+            puts "__________________________________________"   
             
             Product.all.map { |pr| puts "#{pr.product_type} with the cost of #{pr.product_price}, with the ID #{pr.id}."}
-            
+          
             puts "__________________________________________"
             
-            new_product = gets.chomp.to_i#product_id
+            new_product_id = gets.chomp.to_i #product_id
+           
             
-            
-            if Product.all.find_by(id: new_product)
-                
-                
-                modify_order.update(product_id: new_product)
-                
+            if Product.find_by(id: new_product_id)
+
+                # @all_orders.find do |o|
+                #     #o.id == modify_order.id
+                #         modify_order.update product_id: new_product
+                #     end
+                puts "Is this working?"
+                # @all_orders.find do |o|
+                #     o.product_type 
+                # update_order
+
             else
                 puts "Please introduce a valid product, please."
                 update_order
             end
-            
-            binding.pry
+                            
             @all_orders.reload
 
             #puts "It might work"
