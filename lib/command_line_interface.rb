@@ -41,6 +41,7 @@ class CommandLineInterface
         
         puts "_________________________________________________________________________________"
         puts ""
+
         puts "Welcome back #{@user_name}"
         puts "_________________________________________________________________________________"
         puts "
@@ -79,6 +80,7 @@ class CommandLineInterface
 
     end
 
+
     def create_username
 
         puts "_________________________________________________________________________________"
@@ -95,6 +97,7 @@ class CommandLineInterface
 
     end
 
+
     def order_history
 
         puts "_________________________________________________________________________________"
@@ -104,9 +107,7 @@ class CommandLineInterface
             puts "Your order list is empty."
             puts "Press any key to go back to main menu."
         else
-            #@all_products = @user_instance.products
             @all_products.map do |p|
-            # @deleted_item.destroy.save
             puts "You have ordered a #{p.product_type}, for £#{p.product_price}."
             puts""
             end
@@ -181,8 +182,7 @@ class CommandLineInterface
 
         p = Product.find_by(id: user_choice)#return instance of the product 
         new_order = Order.new(user_id: @user_instance.id, product_id: p.id, date: 2020).save
-         #@all_orders << new_order
-         #binding.pry
+   
         puts""
         puts "You have selected #{p.product_type} which cost #{p.product_price}"
         puts "_________________________________________________________________________________"
@@ -232,6 +232,7 @@ class CommandLineInterface
         o.update(product_id: product_id)
         o.save
 
+
         @all_products.reload
         @all_orders.reload
 
@@ -269,6 +270,7 @@ class CommandLineInterface
                 puts "A #{o.product.product_type} with an order ID  #{o.id}"
             end
           
+
             puts "_________________________________________________________________________________"
         
             deleted_item = Order.all.find_by(id: gets.chomp.to_i)
@@ -285,6 +287,7 @@ class CommandLineInterface
                 @all_products.reload
                 puts "Your #{deleted_item.product.product_type} has been successfully cancelled."
                 mainscreen
+
             end
 
             puts "_________________________________________________________________________________"
@@ -351,16 +354,6 @@ class CommandLineInterface
            if you just want that extra protection and monitoring whilst you're
            away from your home.
            "
-        #    puts "_________________________________________________________________________________"
-        #    puts ""
-        #    puts "Press any key to go back to main menu."
-        #    puts "_________________________________________________________________________________"
-        #    puts ""
-
-        #     list_of_tech = gets.chomp
-        #     if list_of_tech 
-        #         mainscreen 
-        #     end
 
         puts "_________________________________________________________________________________"
         puts ""
