@@ -94,17 +94,16 @@ class CommandLineInterface
 
     def order_history
 
-        
         puts "____________________________________________"
-        if @all_orders.size <= 0 
+        if @all_products.size <= 0 
             puts "Your order list is empty."
             puts "Press any key to go back to main menu."
         else
             
              #@all_products = @user_instance.products
-             @all_orders.map do |p|
+             @all_products.map do |p|
                 # @deleted_item.destroy.save
-                puts "You have ordered a #{p.product.product_type}, for £#{p.product.product_price}."
+                puts "You have ordered a #{p.product_type}, for £#{p.product_price}."
                 puts""
                 
                 
@@ -181,58 +180,34 @@ class CommandLineInterface
 
     def update_order
 
-        if @all_orders.size <= 0
-            puts "Your order list in empty! Have a look to our great catelogue!"
-            mainscreen
-        else
-            puts "__________________________________________"
-            
-            puts "Please enter your order ID to update:"
-
-                @all_products.select do |p|
-                    puts "In your card there is #{p.product_type} with an order ID  #{p.id}"
-                end
-        end
-            puts "__________________________________________"
-
-            puts "Please select ID of your order to modify:"
-
-            modify_order = @all_orders.find_by(id: gets.chomp.to_i)#instance
-            
-            
-            puts "__________________________________________"
-            
-            puts "Please select the product ID you would like to enjoy:"
-            puts "__________________________________________"
-            puts ""
-            
-            Product.all.map { |pr| puts "#{pr.product_type} with the cost of #{pr.product_price}, with the ID #{pr.id}."}
-            
-            puts "__________________________________________"
-            
-            new_product = gets.chomp.to_i#product_id
-            
-            
-            if Product.all.find_by(id: new_product)
-                
-                
-                modify_order.update(product_id: new_product)
-                
-            else
-                puts "Please introduce a valid product, please."
-                update_order
-            end
-            
-            binding.pry
-            @all_orders.reload
-
-            #puts "It might work"
-            puts "__________________________________________"
-
-            order_history
-
-            puts "__________________________________________"
+    
+                puts "what is in your cart"
+       
         
+                    @all_orders.select do |o|
+                    puts "In your card there is #{o.product.product_type} with an order ID  #{o.id}"
+                    end
+            
+
+                puts "Please enter your product ID to update:"
+
+                order_id = gets.chomp.to_i#order_id_to_update
+
+            puts "choose another product "
+
+            Product.all.each {|p|puts "#{p.product_type} #{p.id}"}
+
+            puts"choose a new product by id "
+            product_id = gets.chomp.to_i#new_product_id
+            
+            o = @all_orders.find_by(id: order_id)
+           
+            o.update(product_id: product_id)
+            o.save
+
+            @all_orders.reload
+            
+
     end
 
 
