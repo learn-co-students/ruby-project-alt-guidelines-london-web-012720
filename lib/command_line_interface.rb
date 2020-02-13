@@ -9,20 +9,33 @@ class CommandLineInterface
     def menu
         puts "________________"
         puts "Insert the user name to continue:"
+
         @user_name  = gets.chomp.to_s
+
+
         @user_instance = User.find_by(user_name: @user_name)
+      
+     
         puts "________________"
-        if  @user_instance
+        if  @user_instance 
+
             mainscreen
-        elsif
-             create_username 
+
+        else
+            create_username 
+          
         end
     end   
 
+      
+
+
     def mainscreen
 
-        @all_products = @user_instance.products
-        @all_orders = @user_instance.orders
+        @all_orders    = @user_instance.orders
+        @all_products  = @user_instance.products
+        
+
         puts "____________________________________________"
         puts "Welcome back #{@user_name}"
         puts "____________________________________________"
@@ -40,8 +53,10 @@ class CommandLineInterface
         puts "____________________________________________"
         
         mainscreen_options = gets.chomp.to_i
-        if   mainscreen_options == 1
+
+        if  mainscreen_options == 1
             order_history       
+
         elsif mainscreen_options == 2
             list_option
         elsif mainscreen_options == 3
@@ -51,6 +66,7 @@ class CommandLineInterface
         elsif mainscreen_options == 5
             list_of_tech
         elsif mainscreen_options == 6
+
             menu
         elsif mainscreen_options == 7
             exit
@@ -58,6 +74,7 @@ class CommandLineInterface
             puts "Insert valid option please try again."
             mainscreen
         end
+
     end
 
     def create_username
@@ -76,6 +93,7 @@ class CommandLineInterface
     end
 
     def order_history
+
         
         puts "____________________________________________"
         if @all_orders.size <= 0 
@@ -98,6 +116,7 @@ class CommandLineInterface
         if order_sent_back
          mainscreen
         end
+
     end
 
     def list_option
@@ -119,6 +138,7 @@ class CommandLineInterface
     def insert_budget
         puts "Insert budget:"
         puts "__________________________________________ "
+
         user_budget = gets.chomp.to_i
         if user_budget > 0 
             @product_budget = Product.all.select {|p|p.product_price <= user_budget}
@@ -133,6 +153,7 @@ class CommandLineInterface
                 insert_budget
         end       
         
+
         create_product 
     end
 
@@ -142,6 +163,7 @@ class CommandLineInterface
         puts"Select the ID of your chosen product"
         puts""
         user_choice = gets.chomp.to_i
+
         p = Product.find_by(id: user_choice)#return instance of the product 
          new_order =  Order.new(user_id: @user_instance.id, product_id: p.id, date: 2020).save
          #@all_orders << new_order
@@ -154,6 +176,7 @@ class CommandLineInterface
         @all_orders.reload
         mainscreen 
     end
+
 
 
     def update_order
@@ -224,12 +247,13 @@ class CommandLineInterface
         puts "____________________________________________"
 
         puts "Please enter your order to cancel:"
-        
+          
             @all_products.find do |p|
                 @all_orders.each do |o|
                     puts "In your card there is #{p.product_type} with a order id #{o.id}"
                 end
             end
+
         puts "____________________________________________"
         
         deleted_item = Order.all.find_by(id: gets.chomp.to_i)
@@ -302,11 +326,10 @@ class CommandLineInterface
             if list_of_tech 
                 mainscreen 
             end
+
     end
 
 end
-
-
 
 
 
