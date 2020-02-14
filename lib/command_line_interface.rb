@@ -1,22 +1,48 @@
 class CommandLineInterface
 
     def greet
-        puts "________________"
-        puts "Welcome to Tech Hunter"
-        puts "________________"
+        puts "
+        
+                                             db   d8b   db d88888b db       .o88b.  .d88b.  .88b  d88. d88888b   d888888b  .d88b.  
+                                             88   I8I   88 88'     88      d8P  Y8 .8P  Y8. 88'YbdP`88 88'       `~~88~~' .8P  Y8. 
+                                             88   I8I   88 88ooooo 88      8P      88    88 88  88  88 88ooooo      88    88    88 
+                                             Y8   I8I   88 88~~~~~ 88      8b      88    88 88  88  88 88~~~~~      88    88    88 
+                                             `8b d8'8b d8' 88.     88booo. Y8b  d8 `8b  d8' 88  88  88 88.          88    `8b  d8' 
+                                              `8b8' `8d8'  Y88888P Y88888P  `Y88P'  `Y88P'  YP  YP  YP Y88888P      YP     `Y88P'  
+                                                                                                                                   
+                                                                                                                                   
+                                             d888888b db   db d88888b 
+                                             `~~88~~' 88   88 88'     
+                                                88    88ooo88 88ooooo 
+                                                88    88~~~88 88~~~~~ 
+                                                88    88   88 88.     
+                                                YP    YP   YP Y88888P 
+                                                                      
+                                                                      
+                                             d888888b d88888b  .o88b. db   db db   db db    db d8b   db d888888b d88888b d8888b. 
+                                             `~~88~~' 88'     d8P  Y8 88   88 88   88 88    88 888o  88 `~~88~~' 88'     88  `8D 
+                                                88    88ooooo 8P      88ooo88 88ooo88 88    88 88V8o 88    88    88ooooo 88oobY' 
+                                                88    88~~~~~ 8b      88~~~88 88~~~88 88    88 88 V8o88    88    88~~~~~ 88`8b   
+                                                88    88.     Y8b  d8 88   88 88   88 88b  d88 88  V888    88    88.     88 `88. 
+                                                YP    Y88888P  `Y88P' YP   YP YP   YP ~Y8888P' VP   V8P    YP    Y88888P 88   YD 
+                                              "
+     
     end
 
     def menu
-        puts "________________"
+
+        puts "_________________________________________________________________________________"
+        puts ""
         puts "Insert the user name to continue:"
+        puts ""
+        puts "_________________________________________________________________________________"
 
         @user_name  = gets.chomp.to_s
 
-
         @user_instance = User.find_by(user_name: @user_name)
-      
-     
-        puts "________________"
+        puts ""
+        puts "_________________________________________________________________________________"
+        #check if the user exist in case it send the user to crate a new user 
         if  @user_instance 
 
             mainscreen
@@ -25,50 +51,46 @@ class CommandLineInterface
             create_username 
           
         end
+
     end   
 
-      
-
-
     def mainscreen
-
-        @all_orders    = @user_instance.orders
-        @all_products  = @user_instance.products
+         
+        @all_orders = @user_instance.orders
+        @all_products = @user_instance.products
         
+        puts "_________________________________________________________________________________"
+        puts ""
 
-        puts "____________________________________________"
         puts "Welcome back #{@user_name}"
-        puts "____________________________________________"
+        puts "_________________________________________________________________________________"
         puts "
         What would you like to do?
-
         1. Order history
         2. Create a new order
         3. Update your order 
         4. Cancel your order
-        5. Catalogue
+        5. View the catalogue
         6. Go back to the login page
         7. Exit application
         "
-        puts "____________________________________________"
+        puts "_________________________________________________________________________________"
         
         mainscreen_options = gets.chomp.to_i
-
-        if  mainscreen_options == 1
+        case mainscreen_options
+        when 1
             order_history       
-
-        elsif mainscreen_options == 2
+        when 2
             list_option
-        elsif mainscreen_options == 3
+        when 3
             update_order
-        elsif mainscreen_options == 4
+        when 4
             delete_user_order
-        elsif mainscreen_options == 5
+        when 5
             list_of_tech
-        elsif mainscreen_options == 6
-
+        when 6
             menu
-        elsif mainscreen_options == 7
+        when 7
             exit
         else
             puts "Insert valid option please try again."
@@ -77,41 +99,55 @@ class CommandLineInterface
 
     end
 
+
     def create_username
-        puts "____________________________________________"
+
+        puts "_________________________________________________________________________________"
 
         puts "Your name is not registered, please insert nickname to create a new user:"
         
-        @user_name = gets.chomp.to_s
+        @user_name = gets.chomp.gsub(/\s+/, "")
+      
+        if User.all.find_by(user_name: @user_name)
+            puts "Sorry this nickname is taken try again"
+            create_username
+        else
 
-
-        puts "____________________________________________"
+        puts "_________________________________________________________________________________"
 
         @user_instance = User.create(user_name: "#{@user_name}")
-
+        end 
         mainscreen
+
     end
+
 
     def order_history
 
-        puts "____________________________________________"
+        puts "_________________________________________________________________________________"
+        puts ""
+
         if @all_products.size <= 0 
             puts "Your order list is empty."
             puts "Press any key to go back to main menu."
+
+            puts "_________________________________________________________________________________"
         else
-            
-             #@all_products = @user_instance.products
-             @all_products.map do |p|
-                # @deleted_item.destroy.save
-                puts "You have ordered a #{p.product_type}, for £#{p.product_price}."
-                puts""
-                
-                
+            @all_products.map do |p|
+
+            puts "You have ordered a #{p.product_type}, for £#{p.product_price}."
+    
+            puts "_________________________________________________________________________________"
             end
         end
-        puts "____________________________________________"
+
+        puts "_________________________________________________________________________________"
+        puts ""
         puts "Press any key to go back to main menu."
+
+        puts "_________________________________________________________________________________"
         order_sent_back = gets.chomp
+
         if order_sent_back
          mainscreen
         end
@@ -120,140 +156,204 @@ class CommandLineInterface
 
     def list_option
         
-        puts "__________________________________________ "
-        puts "Press 1 to see our catalogue or 2 to insert budget:"
+        puts "_________________________________________________________________________________ "
+        puts ""
+        puts "Press 1 to see our catalogue or press 2 to insert budget:"
+        
+        puts "_________________________________________________________________________________"
+
         list = gets.chomp.to_i
-            if list == 1 
-                list_of_tech
-            elsif list == 2 
-                return insert_budget
-            else 
-                puts "Enter a valid option please."
-                list_option
-            end
+        if list == 1 
+            list_of_tech
+        elsif list == 2 
+            return insert_budget
+        else 
+            puts "Enter a valid option please."
+            list_option
+        end
             
     end
             
     def insert_budget
+
         puts "Insert budget:"
-        puts "__________________________________________ "
+        puts "_________________________________________________________________________________ "
 
         user_budget = gets.chomp.to_i
-        if user_budget > 0 
+        if user_budget > 0
+          
             @product_budget = Product.all.select {|p|p.product_price <= user_budget}
-                puts "Yout budget allow you to buy:"
-                puts "____________________________________________"
-            @product_budget.each_with_index do |p, i|
-                puts "#{i +=1}\t #{p.product_type}, which cost #{p.product_price} product ID #{p.id}"
-                puts ""
-            end
+            puts "_________________________________________________________________________________"
+            puts ""
+            puts "Yout budget allow you to buy:"
+            puts "_________________________________________________________________________________"
+            puts ""
+                @product_budget.each_with_index do |p, i|
+                    puts "#{i +=1}\t #{p.product_type}, which cost #{p.product_price} product ID #{p.id}"
+                    puts ""
+                end
         else 
-                puts "Insert correct amount, please:"
-                insert_budget
+            puts "Insert correct amount, please:"
+            insert_budget
         end       
-        
-
+    
         create_product 
+
     end
 
 
     def create_product
-        puts "__________________________________________"
-        puts"Select the ID of your chosen product"
-        puts""
+
+        puts "_________________________________________________________________________________"
+        puts ""
+        puts "Select the ID of your chosen product"
+        puts "_________________________________________________________________________________"
+        puts ""
+
         user_choice = gets.chomp.to_i
 
-        p = Product.find_by(id: user_choice)#return instance of the product 
-         new_order =  Order.new(user_id: @user_instance.id, product_id: p.id, date: 2020).save
-         #@all_orders << new_order
-         #binding.pry
-         puts""
-        puts "You have selected #{p.product_type} which cost #{p.product_price}, your order 
-        has been processed successfully"
+        if user_choice > 0 && Product.all.find_by(id:user_choice) #check if the user input a number and is more than 0 and exist
+
+        p = Product.find_by(id: user_choice)#store the product instance 
+        new_order = Order.new(user_id: @user_instance.id, product_id: p.id, date: 2020).save #create and save the new ordere
+            
+        puts""
+        puts "You have selected #{p.product_type} which cost #{p.product_price}"
+        puts "_________________________________________________________________________________"
         puts ""
-        puts "__________________________________________"
+        puts"Your order has successfully been processed"
+        puts ""
+        puts "_________________________________________________________________________________"
+        @all_products.reload
         @all_orders.reload
+        else 
+            puts "this product does not exist"
+            create_product
+        end
         mainscreen 
+
     end
 
 
 
     def update_order
 
-    
-                puts "what is in your cart"
+        puts "What is in your cart?"
        
+        @all_orders.select {|o| puts "A #{o.product.product_type} with an order ID  #{o.id}"}
+
+        puts "_________________________________________________________________________________"
+        puts ""
         
-                    @all_orders.select do |o|
-                    puts "In your card there is #{o.product.product_type} with an order ID  #{o.id}"
-                    end
-            
+        puts "Please enter your product ID to update:"
 
-                puts "Please enter your product ID to update:"
+        puts "_________________________________________________________________________________"
+        puts ""
+        
 
-                order_id = gets.chomp.to_i#order_id_to_update
+        @order_id = gets.chomp.to_i #order_id_to_update
 
-            puts "choose another product "
+        if @order_id > 0 && Order.all.find_by(id: @order_id)
+            update_product2
+        else
+            puts "invalid input try again"
+            update_order
+        end
 
-            Product.all.each {|p|puts "#{p.product_type} #{p.id}"}
-
-            puts"choose a new product by id "
-            product_id = gets.chomp.to_i#new_product_id
-            
-            o = @all_orders.find_by(id: order_id)
-           
-            o.update(product_id: product_id)
-            o.save
-
-            @all_orders.reload
-            
 
     end
 
+    def update_product2
+
+
+        puts "Choose another product "
+        puts "________________________________________________________________"
+
+        Product.all.each {|p|puts "#{p.id}. #{p.product_type}"}
+
+        puts "________________________________________________________________"
+
+        puts "Choose a new product by id "
+
+        puts "_______________________________________________________________"
+
+        @product_id = gets.chomp.to_i #new_product_id integer 
+            
+        o = @all_orders.find_by(id: @order_id) #find order by id, update the product and save it 
+        o.update(product_id: @product_id)
+        o.save
+
+
+        @all_products.reload
+        @all_orders.reload
+
+        puts ""
+        puts "Thank you for changing your order to a #{o.product.product_type}!"
+        puts""
+
+        puts "_________________________________________________________________________________"
+        puts ""
+        puts "Press any key to go back to main menu."
+        puts "_________________________________________________________________________________"
+        puts ""
+
+        input = gets.chomp
+        if input 
+            mainscreen 
+        end
+    end
 
 
     def delete_user_order
 
         if @all_orders.size <= 0
-            puts "Your order list in empty. Have a look to our great catelogue!"
+            puts "You have no orders. Have a look to our catelogue!"
             mainscreen
         else
+            puts "_________________________________________________________________________________"
+            puts ""
+            puts "Please enter your order ID to cancel:"
+            puts ""
 
-        puts "____________________________________________"
-
-        puts "Please enter your order to cancel:"
+            @all_orders.select {|o| puts "A #{o.product.product_type} with an order ID  #{o.id}"}
+            @deleted_item = Order.all.find_by(id: gets.chomp.to_i)
+            delete_user_order2 
           
-            @all_products.find do |p|
-                @all_orders.each do |o|
-                    puts "In your card there is #{p.product_type} with a order id #{o.id}"
-                end
-            end
+        end
 
-        puts "____________________________________________"
-        
-        deleted_item = Order.all.find_by(id: gets.chomp.to_i)
-        
-        if deleted_item
-            deleted_item.destroy
-            @all_orders.reload
-            puts "Your order has been successfully deleted."
+    end   
+
+    def delete_user_order2
+
+        puts "#{@user_name}, are you sure you want to cancel your order of #{@deleted_item.product.product_type}?"
+
+        puts "Type 'y' or 'n'"
+        answer = gets.chomp
+
+        case answer
+
+        when "n"
             mainscreen
-        else 
-            puts "You dont have that item in your bag."
-            order_history
+        when "y"
+            @deleted_item.destroy
+            @all_orders.reload
+            @all_products.reload
+            puts "Your #{@deleted_item.product.product_type} has been successfully cancelled."
+            mainscreen
+        else
+            puts "invalid input please type a valid option"
+            delete_user_order2
         end
-            
-        puts "____________________________________________"
-        end
-            
+
+        puts "_________________________________________________________________________________"
+
     end
-       
 
     def list_of_tech
 
-        puts "__________________________________________"
-       puts "__________________________________________"
-       puts "Welcome to the catelogue!
+        puts "_________________________________________________________________________________"
+        puts ""
+        puts "Welcome to the catelogue!
        1. Smart TV... £200
            Connect this TV to your internet and stream to your hearts
            content. Stream music and videos, browse the internet and view
@@ -294,17 +394,25 @@ class CommandLineInterface
        11. Monitoring system... £100
            The perfect start-up CCTV kit for any home. This budget item is great
            if you just want that extra protection and monitoring whilst you're
-           away from your home."
-           puts "__________________________________________"
-           puts "Press any key to go back to main menu."
-            list_of_tech = gets.chomp
-            if list_of_tech 
-                mainscreen 
-            end
+           away from your home.
+           "
+
+        puts "_________________________________________________________________________________"
+        puts ""
+        puts "Press 1 to make a purchase or press 2 to go back to the main menu."
+
+        puts "_________________________________________________________________________________"
+        puts ""
+
+        input = gets.chomp.to_i
+        if input == 1
+            insert_budget
+        elsif input == 2
+            mainscreen 
+        else 
+            puts "invalid option please try again"
+            list_of_tech
+        end
 
     end
-
 end
-
-
-

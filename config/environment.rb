@@ -1,5 +1,5 @@
 require 'bundler'
-
+require 'easy_audio'
 
 
 Bundler.require
