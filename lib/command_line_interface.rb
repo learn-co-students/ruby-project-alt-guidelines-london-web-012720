@@ -1,6 +1,7 @@
 class CommandLineInterface
 
     def greet
+      
         puts "
         
                                              db   d8b   db d88888b db       .o88b.  .d88b.  .88b  d88. d88888b   d888888b  .d88b.  
@@ -27,6 +28,7 @@ class CommandLineInterface
                                                 YP    Y88888P  `Y88P' YP   YP YP   YP ~Y8888P' VP   V8P    YP    Y88888P 88   YD 
                                               "
      
+
     end
 
     def menu
@@ -42,7 +44,9 @@ class CommandLineInterface
         @user_instance = User.find_by(user_name: @user_name)
         puts ""
         puts "_________________________________________________________________________________"
+
         #check if the user exist in case it send the user to crate a new user 
+
         if  @user_instance 
 
             mainscreen
@@ -55,7 +59,7 @@ class CommandLineInterface
     end   
 
     def mainscreen
-         
+
         @all_orders = @user_instance.orders
         @all_products = @user_instance.products
         
@@ -106,6 +110,7 @@ class CommandLineInterface
 
         puts "Your name is not registered, please insert nickname to create a new user:"
         
+
         @user_name = gets.chomp.gsub(/\s+/, "")
       
         if User.all.find_by(user_name: @user_name)
@@ -138,6 +143,7 @@ class CommandLineInterface
             puts "You have ordered a #{p.product_type}, for £#{p.product_price}."
     
             puts "_________________________________________________________________________________"
+
             end
         end
 
@@ -146,6 +152,7 @@ class CommandLineInterface
         puts "Press any key to go back to main menu."
 
         puts "_________________________________________________________________________________"
+
         order_sent_back = gets.chomp
 
         if order_sent_back
@@ -159,7 +166,6 @@ class CommandLineInterface
         puts "_________________________________________________________________________________ "
         puts ""
         puts "Press 1 to see our catalogue or press 2 to insert budget:"
-        
         puts "_________________________________________________________________________________"
 
         list = gets.chomp.to_i
@@ -230,6 +236,7 @@ class CommandLineInterface
             puts "this product does not exist"
             create_product
         end
+
         mainscreen 
 
     end
@@ -249,7 +256,6 @@ class CommandLineInterface
 
         puts "_________________________________________________________________________________"
         puts ""
-        
 
         @order_id = gets.chomp.to_i #order_id_to_update
 
@@ -260,11 +266,9 @@ class CommandLineInterface
             update_order
         end
 
-
     end
 
     def update_product2
-
 
         puts "Choose another product "
         puts "________________________________________________________________"
@@ -282,7 +286,6 @@ class CommandLineInterface
         o = @all_orders.find_by(id: @order_id) #find order by id, update the product and save it 
         o.update(product_id: @product_id)
         o.save
-
 
         @all_products.reload
         @all_orders.reload
@@ -354,43 +357,54 @@ class CommandLineInterface
         puts "_________________________________________________________________________________"
         puts ""
         puts "Welcome to the catelogue!
+
        1. Smart TV... £200
            Connect this TV to your internet and stream to your hearts
            content. Stream music and videos, browse the internet and view
            photos... the world is your oyster!
+
        2. Wireless speaker system... £100
            This wireless speaker system includes speakers for up to 5 rooms,
            these speakers can be paired and controlled from a mobile app
            creating a cool vibe all around the house.
+
        3. Thermostat... £300
            This super thermostat automatically regulates temperature. It
            can also be paired and controlled via a mobie app so you can turn
            the heating up just in time for when you get home!
+
        4. Home security system... £400
            Protect your home and your family with the security system.
            This includes high decibel alarms, CCTV, motione detectors,
            a control panel and more.
+
        5. Domestic... £500
            Forgot to feed your dog? Well that's not a problem with the
            Domestic2000! Give your dog a little pick me up or a treat for
            when you're missing him.
+
        6. Smoke/CO detector... £800
            Protect you and your family with this smoke and carbon monoxide
            detector. This fire-protection device automatically detects and
            gives warning when there is a presence of smoke.
+
        7. Lighting... £300
            The perfect modern chandelier to lilght up any room! Suitable for
            most rooms and it absolutely stunning. You can transform a room in
            seconds with this lighting.
+
        8. Doors... £200
            Made from quality solid oak, these doors are perfect for making
            the room feel complete.
+
        9. Laundry machine... £400
            Powerful washing machine and tumble drier combination, perfect for
            any busy household. Quick and reliable, your new best friend!
+
        10. Water detector... £700
            Detect the presence of water to provide an alert in time to prevent
            a serious water leak.
+
        11. Monitoring system... £100
            The perfect start-up CCTV kit for any home. This budget item is great
            if you just want that extra protection and monitoring whilst you're
